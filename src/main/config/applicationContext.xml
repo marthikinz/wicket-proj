@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
 
-<beans>
 
     <!-- setup wicket application -->
 	<bean id="wicketApplication" class="com.mycompany.WicketApplication"></bean>
+    <context:property-placeholder location="classpath:something.properties"/>
+	<bean id="something" class="com.mycompany.Something">
+        <property name="name" value="${something.message}"></property>
+	</bean>
+	<bean id="someInit" class="com.mycompany.SomeInit">
+		<property name="something" ref="something"/>
+	</bean>
+	<bean id="someService" class="com.mycompany.SomeServiceImpl">
+		<property name="something" ref="something"/>
+	</bean>
 
 </beans>
