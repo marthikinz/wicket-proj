@@ -5,16 +5,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class SomeServiceImpl implements SomeService{
 	
-	private Something something;
-	
-	public void setSomething(Something something) {
-		this.something = something;
+	private SomethingDao somethingDao;
+
+	public void setSomethingDao(SomethingDao somethingDao) {
+		this.somethingDao = somethingDao;
 	}
 
 	@Override
 	public String getSomeMessag() {
 		// TODO Auto-generated method stub
-		return something.getName();
+		return somethingDao.load(1).getName();
 	}
 
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping package="com.mycompany" default-access="field">
+    <class name="Something" table="something">
+        <cache usage="read-write"/>
+        <id name="id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" length="32" not-null="true"/>
+    </class>
+</hibernate-mapping>

@@ -1,18 +1,18 @@
 package com.mycompany;
-
 import org.springframework.beans.factory.InitializingBean;
 
 public class SomeInit implements InitializingBean{
-	
-	private Something something;
-	 
-	public void setSomething(Something something) {
-		this.something = something;
+	private SomethingDao somethingDao;
+
+	public void setSomethingDao(SomethingDao somethingDao) {
+		this.somethingDao = somethingDao;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println(something.getName());
+		Something something = new Something();
+		something.setName("testing");
+		somethingDao.save(something);
 	}
 
 }

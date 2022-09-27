@@ -11,14 +11,67 @@
     <!-- setup wicket application -->
 	<bean id="wicketApplication" class="com.mycompany.WicketApplication"></bean>
     <context:property-placeholder location="classpath:something.properties"/>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName"><value>${jdbc.driver}</value></property>
+		<property name="url"><value>${jdbc.url}</value></property>
+		<property name="username"><value>${jdbc.username}</value></property>
+		<property name="password"><value>${jdbc.password}</value></property>
+	</bean>
+	<!-- setup hibernate session factory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mappingResources">
+			<list>
+				<value>Something.hbm.xml</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.connection.pool_size">5</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- setup transaction manager	-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+       <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+    </bean>
+
+	<!--
+		setup contact dao
+	-->
+	<bean id="somethingDaoTarget" class="com.mycompany.HibernateSomethingDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<!-- this is a transactional proxy for something dao which ensures proper transaction handling -->
+	<bean id="somethingDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="transactionManager"/>
+		<property name="target" ref="somethingDaoTarget"/>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save">PROPAGATION_REQUIRED</prop>
+				<prop key="delete">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
 	<bean id="something" class="com.mycompany.Something">
         <property name="name" value="${something.message}"></property>
 	</bean>
 	<bean id="someInit" class="com.mycompany.SomeInit">
-		<property name="something" ref="something"/>
+		<property name="somethingDao" ref="somethingDao"/>
 	</bean>
 	<bean id="someService" class="com.mycompany.SomeServiceImpl">
-		<property name="something" ref="something"/>
+		<property name="somethingDao" ref="somethingDao"/>
 	</bean>
 
 </beans>
