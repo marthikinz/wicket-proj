@@ -12,6 +12,7 @@
 	<bean id="wicketApplication" class="com.mycompany.WicketApplication"></bean>
     <context:property-placeholder location="classpath:something.properties"/>
 
+     <context:component-scan base-package="com.mycompany"/>
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName"><value>${jdbc.driver}</value></property>
 		<property name="url"><value>${jdbc.url}</value></property>
@@ -42,20 +43,17 @@
 	</bean>
 	<!-- setup transaction manager	-->
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-       <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+       <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-	<!--
-		setup contact dao
-	-->
-	<bean id="somethingDaoTarget" class="com.mycompany.HibernateSomethingDao">
+	<bean id="target" class="com.mycompany.HibernateSomethingDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
 	<!-- this is a transactional proxy for something dao which ensures proper transaction handling -->
 	<bean id="somethingDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager" ref="transactionManager"/>
-		<property name="target" ref="somethingDaoTarget"/>
+		<property name="target" ref="target"/>
 		<property name="transactionAttributes">
 			<props>
 				<prop key="save">PROPAGATION_REQUIRED</prop>
@@ -64,6 +62,8 @@
 			</props>
 		</property>
 	</bean>
+	<!-- 
+	
 	<bean id="something" class="com.mycompany.Something">
         <property name="name" value="${something.message}"></property>
 	</bean>
@@ -73,5 +73,6 @@
 	<bean id="someService" class="com.mycompany.SomeServiceImpl">
 		<property name="somethingDao" ref="somethingDao"/>
 	</bean>
+	-->
 
 </beans>
