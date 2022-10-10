@@ -62,17 +62,5 @@
 			</props>
 		</property>
 	</bean>
-	<!-- 
-	
-	<bean id="something" class="com.mycompany.Something">
-        <property name="name" value="${something.message}"></property>
-	</bean>
-	<bean id="someInit" class="com.mycompany.SomeInit">
-		<property name="somethingDao" ref="somethingDao"/>
-	</bean>
-	<bean id="someService" class="com.mycompany.SomeServiceImpl">
-		<property name="somethingDao" ref="somethingDao"/>
-	</bean>
-	-->
 
 </beans>
