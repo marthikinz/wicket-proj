@@ -3,7 +3,7 @@ package com.mycompany;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class HibernateSomethingDao implements SomethingDao {
+public class HibernateSomethingDao {
 	
 	private SessionFactory factory;
 	public void setSessionFactory(SessionFactory factory)
@@ -15,19 +15,15 @@ public class HibernateSomethingDao implements SomethingDao {
 		return factory.getCurrentSession();
 	}
 
-	@Override
 	public Something load(long id) {
 		return (Something)getSession().get(Something.class, Long.valueOf(id));
 	}
 
-	@Override
 	public Something save(Something something) {
 		return (Something)getSession().merge(something);
 	}
 
-	@Override
 	public int count(Something filter) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
