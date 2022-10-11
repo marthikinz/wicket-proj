@@ -3,7 +3,7 @@
     "-//Hibernate/Hibernate Mapping DTD//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
     
-<hibernate-mapping package="com.mycompany" default-access="field">
+<hibernate-mapping package="com.mycompany.model" default-access="field">
     <class name="Something" table="something">
         <cache usage="read-write"/>
         <id name="id">

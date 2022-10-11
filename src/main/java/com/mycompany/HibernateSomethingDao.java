@@ -1,30 +1,33 @@
 package com.mycompany;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-public class HibernateSomethingDao {
-	
-	private SessionFactory factory;
-	public void setSessionFactory(SessionFactory factory)
-	{
-		this.factory = factory;
-	}
-	protected Session getSession()
-	{
-		return factory.getCurrentSession();
-	}
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.mycompany.model.Something;
+
+@Repository
+@Transactional
+public class HibernateSomethingDao implements SomethingDao {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+	@Override
 	public Something load(long id) {
-		return (Something)getSession().get(Something.class, Long.valueOf(id));
+		Something something = entityManager.find(Something.class, id);
+		return something;
 	}
-
+	@Override
 	public Something save(Something something) {
-		return (Something)getSession().merge(something);
+        entityManager.persist(something);
+        return something;
 	}
-
+	@Override
 	public int count(Something filter) {
 		return 0;
 	}
+
 
 }

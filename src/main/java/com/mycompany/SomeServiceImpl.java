@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class SomeServiceImpl implements SomeService{
 	
 	@Autowired
-	private HibernateSomethingDao somethingDao;
+	private SomethingDao somethingDao;
 
 	@Override
 	public String getSomeMessag() {
