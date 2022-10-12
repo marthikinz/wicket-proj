@@ -1,17 +1,22 @@
 package com.mycompany;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.mycompany.model.Something;
+import com.mycompany.repository.SomethingRepository;
 
 @Service
 public class SomeServiceImpl implements SomeService{
 	
 	@Autowired
-	private SomethingDao somethingDao;
+	private SomethingRepository somethingRepository;
 
 	@Override
 	public String getSomeMessag() {
-		return somethingDao.load(1).getName();
+		List<Something> s = somethingRepository.findByName("testing");
+		return s.get(0).getName();
 	}
 
 }
