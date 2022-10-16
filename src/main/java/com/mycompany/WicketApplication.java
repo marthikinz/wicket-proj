@@ -1,7 +1,6 @@
 package com.mycompany;
 
-import org.apache.wicket.csp.CSPDirective;
-import org.apache.wicket.csp.CSPDirectiveSrcValue;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -9,6 +8,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+
+import com.mycompany.page.HomePage;
 
 /**
  * Application object for your web application.
@@ -37,14 +38,6 @@ public class WicketApplication extends WebApplication implements ApplicationCont
 	{
 		super.init();
 		getComponentInstantiationListeners().add(new SpringComponentInjector(this, ctx, true));
-
-		// needed for the styling used by the quickstart
-		getCspSettings().blocking()
-			.add(CSPDirective.STYLE_SRC, CSPDirectiveSrcValue.SELF)
-			.add(CSPDirective.STYLE_SRC, "https://fonts.googleapis.com/css")
-			.add(CSPDirective.FONT_SRC, "https://fonts.gstatic.com");
-
-		// add your configuration here
 	}
 
 	@Override

@@ -14,9 +14,10 @@ public class SomeInit implements InitializingBean{
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Something something = new Something();
-		something.setName("testing");
+		Something something = Something.builder().name("testingxx").number(1).build();
 		somethingRepository.save(something);
+		Something something1 = Something.builder().name("testingzz").number(2).build();
+		somethingRepository.save(something1);
 	}
 
 }
