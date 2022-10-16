@@ -15,6 +15,7 @@ public class HomePage extends BasePage {
 	public HomePage() {
 		super();
 		add(new Label("something", someService.getSomeMessag()));
+		System.out.println(someService.getCount());
 
 	}
 }

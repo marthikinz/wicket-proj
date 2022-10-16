@@ -8,4 +8,5 @@ import com.mycompany.model.Something;
 
 public interface SomethingRepository extends JpaRepository<Something, Long>{
 	List<Something> findByName(String name);
+	List<Something> findByNumber(int number);
 }
